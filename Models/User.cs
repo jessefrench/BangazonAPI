@@ -11,7 +11,4 @@ public class User
 	public string State { get; set; }
 	public string Zip {  get; set; }
 	public bool Seller { get; set; }
-	public List<Product> Products { get; set; } // if user is a seller
-	public List<Order> Orders { get; set; } // if user is a customer
-	public List<PaymentType> PaymentTypes { get; set; }
 }
