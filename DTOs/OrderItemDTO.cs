@@ -1,4 +1,4 @@
-﻿namespace Bangazon.Models.DTOs
+﻿namespace Bangazon.DTOs
 {
     public class OrderItemDTO
     {

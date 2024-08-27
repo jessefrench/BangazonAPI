@@ -1,8 +1,6 @@
-using Bangazon.Models;
-using Bangazon.Models.DTOs;
-using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using Bangazon.API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,5 +46,10 @@ app.UseCors();
 app.UseHttpsRedirection();
 
 // endpoints
+CategoryRequests.Map(app);
+OrderRequests.Map(app);
+PaymentTypeRequests.Map(app);
+ProductRequests.Map(app);
+UserRequests.Map(app);
 
 app.Run();
