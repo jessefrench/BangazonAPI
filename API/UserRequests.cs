@@ -1,4 +1,6 @@
 using Bangazon.Models;
+using Bangazon.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace Bangazon.API
 {
@@ -6,6 +8,36 @@ namespace Bangazon.API
     {
         public static void Map(WebApplication app)
         {
+            // check user
+            app.MapPost("/checkuser", (BangazonDbContext db, UserAuthDTO userAuthDTO) =>
+            {
+                var userUid = db.Users.SingleOrDefault(user => user.FirebaseKey == userAuthDTO.FirebaseKey);
+
+                if (userUid == null)
+                {
+                    return Results.NotFound();
+                }
+                else
+                {
+                    return Results.Ok(userUid);
+                }
+            });
+
+            // add user
+            app.MapPost("/register", (BangazonDbContext db, User user) =>
+            {
+                try
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return Results.Created($"/users/{user.Id}", user);
+                }
+                catch (DbUpdateException)
+                {
+                    return Results.BadRequest();
+                }
+            });
+
             // get users
             app.MapGet("/users", (BangazonDbContext db) =>
             {
@@ -18,27 +50,6 @@ namespace Bangazon.API
                 return db.Users.SingleOrDefault(user => user.Id == id);
             });
 
-            // check user
-            app.MapGet("/users/check/{uid}", (BangazonDbContext db, string uid) =>
-            {
-                var user = db.Users.Where(user => user.FirebaseKey == uid).ToList();
-
-                if (user == null)
-                {
-                    return Results.NotFound("User not registered");
-                }
-
-                return Results.Ok(user);
-            });
-
-            // add user
-            app.MapPost("/users/register", (BangazonDbContext db, User user) =>
-            {
-                db.Users.Add(user);
-                db.SaveChanges();
-                return Results.Created($"/user/{user.Id}", user);
-            });
-
             // update user
             app.MapPut("/users/{id}", (BangazonDbContext db, int id, User user) =>
             {
@@ -46,7 +57,7 @@ namespace Bangazon.API
 
                 if (userToUpdate == null)
                 {
-                    return Results.NotFound("User Id not found");
+                    return Results.NotFound();
                 }
 
                 userToUpdate.FirebaseKey = user.FirebaseKey;
