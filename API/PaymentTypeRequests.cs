@@ -8,9 +8,15 @@ namespace Bangazon.API
         public static void Map(WebApplication app)
         {
             // get payment types
-            app.MapGet("/paymentstypes", (BangazonDbContext db) =>
+            app.MapGet("/payment-types", (BangazonDbContext db) =>
             {
                 return db.PaymentTypes.ToList();
+            });
+
+            // get payment type by id
+            app.MapGet("/payment-types/{id}", (BangazonDbContext db, int id) =>
+            {
+                return db.PaymentTypes.SingleOrDefault(paymentType => paymentType.Id == id);
             });
         }
     }

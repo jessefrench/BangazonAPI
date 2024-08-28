@@ -1,5 +1,4 @@
 using Bangazon.Models;
-using Bangazon.DTOs;
 
 namespace Bangazon.API
 {
@@ -16,30 +15,51 @@ namespace Bangazon.API
             // get user by id
             app.MapGet("/users/{id}", (BangazonDbContext db, int id) =>
             {
-                return db.Users.SingleOrDefault(u => u.Id == id);
+                return db.Users.SingleOrDefault(user => user.Id == id);
             });
 
-            // login user
-            app.MapPost("/checkuser", (BangazonDbContext db, UserAuthDTO userAuthDTO) =>
+            // check user
+            app.MapGet("/users/check/{uid}", (BangazonDbContext db, string uid) =>
             {
-                var userUid = db.Users.SingleOrDefault(u => u.Uid == userAuthDTO.Uid);
+                var user = db.Users.Where(user => user.FirebaseKey == uid).ToList();
 
-                if (userUid == null)
+                if (user == null)
                 {
-                    return Results.NotFound();
+                    return Results.NotFound("User not registered");
                 }
-                else
-                {
-                    return Results.Ok(userUid);
-                }
+
+                return Results.Ok(user);
             });
 
-            // register user
-            app.MapPost("/register", (BangazonDbContext db, User user) =>
+            // add user
+            app.MapPost("/users/register", (BangazonDbContext db, User user) =>
             {
                 db.Users.Add(user);
                 db.SaveChanges();
                 return Results.Created($"/user/{user.Id}", user);
+            });
+
+            // update user
+            app.MapPut("/users/{id}", (BangazonDbContext db, int id, User user) =>
+            {
+                User userToUpdate = db.Users.SingleOrDefault(user => user.Id == id);
+
+                if (userToUpdate == null)
+                {
+                    return Results.NotFound("User Id not found");
+                }
+
+                userToUpdate.FirebaseKey = user.FirebaseKey;
+                userToUpdate.FirstName = user.FirstName;
+                userToUpdate.LastName = user.LastName;
+                userToUpdate.Email = user.Email;
+                userToUpdate.Address = user.Address;
+                userToUpdate.City = user.City;
+                userToUpdate.State = user.State;
+                userToUpdate.Zip = user.Zip;
+
+                db.SaveChanges();
+                return Results.NoContent();
             });
         }
     }
