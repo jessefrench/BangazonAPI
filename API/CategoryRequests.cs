@@ -16,8 +16,7 @@ namespace Bangazon.API
 			// get category by id
 			app.MapGet("/categories/{id}", (BangazonDbContext db, int id) =>
 			{
-				var category = db.Categories.SingleOrDefault(category => category.Id == id);
-				return category.Name;
+				return db.Categories.SingleOrDefault(category => category.Id == id);
 			});
 		}
 	}

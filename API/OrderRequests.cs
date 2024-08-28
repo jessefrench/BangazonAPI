@@ -51,7 +51,7 @@ namespace Bangazon.API
             });
 
             // add item to order
-            app.MapPost("/orders/addproduct", (BangazonDbContext db, OrderItemDTO orderItemDTO) =>
+            app.MapPost("/orders/add-product", (BangazonDbContext db, OrderItemDTO orderItemDTO) =>
             {
                 var order = db.Orders.Include(order => order.Products).SingleOrDefault(order => order.Id == orderItemDTO.OrderId);
                 var product = db.Products.Find(orderItemDTO.ProductId);
