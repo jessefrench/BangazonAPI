@@ -1,6 +1,3 @@
-using Bangazon.Models;
-using Bangazon.DTOs;
-
 namespace Bangazon.API
 {
     public class PaymentTypeRequests

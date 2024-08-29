@@ -1,6 +1,4 @@
 using Bangazon.Models;
-using Bangazon.DTOs;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bangazon.API
 {
@@ -9,9 +7,9 @@ namespace Bangazon.API
         public static void Map(WebApplication app)
         {
             // check user
-            app.MapPost("/checkuser", (BangazonDbContext db, UserAuthDTO userAuthDTO) =>
+            app.MapGet("/checkuser/{uid}", (BangazonDbContext db, string uid) =>
             {
-                var userUid = db.Users.SingleOrDefault(user => user.FirebaseKey == userAuthDTO.FirebaseKey);
+                var userUid = db.Users.Where(user => user.Uid == uid).FirstOrDefault();
 
                 if (userUid == null)
                 {
@@ -26,16 +24,9 @@ namespace Bangazon.API
             // add user
             app.MapPost("/register", (BangazonDbContext db, User user) =>
             {
-                try
-                {
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    return Results.Created($"/users/{user.Id}", user);
-                }
-                catch (DbUpdateException)
-                {
-                    return Results.BadRequest();
-                }
+                db.Users.Add(user);
+                db.SaveChanges();
+                return Results.Created($"/users/{user.Id}", user);
             });
 
             // get users
@@ -60,7 +51,7 @@ namespace Bangazon.API
                     return Results.NotFound();
                 }
 
-                userToUpdate.FirebaseKey = user.FirebaseKey;
+                userToUpdate.Uid = user.Uid;
                 userToUpdate.FirstName = user.FirstName;
                 userToUpdate.LastName = user.LastName;
                 userToUpdate.Email = user.Email;
