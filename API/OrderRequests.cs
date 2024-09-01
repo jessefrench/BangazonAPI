@@ -11,7 +11,7 @@ namespace Bangazon.API
             // get orders
             app.MapGet("/orders", (BangazonDbContext db) =>
             {
-                return db.Orders.ToList();
+                return db.Orders.Include(order => order.PaymentType).ToList();
             });
 
             // get order by id
@@ -21,10 +21,17 @@ namespace Bangazon.API
             });
 
             // get orders by customer
-            app.MapGet("/orders/customers/{id}", (BangazonDbContext db, int id) =>
+            app.MapGet("/orders/customers/{uid}", (BangazonDbContext db, string uid) =>
             {
-                var order = db.Orders.Where(order => order.CustomerId == id).ToList();
+                var order = db.Orders.Where(order => order.Uid == uid).ToList();
                 return order;
+            });
+
+            // get order products
+            app.MapGet("/orders/{id}/products", (BangazonDbContext db, int id) =>
+            {
+                var Order = db.Orders.Include(order => order.Products).FirstOrDefault(order => order.Id == id);
+                return Order;
             });
 
             // create order
@@ -50,36 +57,54 @@ namespace Bangazon.API
                 return Results.NoContent();
             });
 
-            // add item to order
-            app.MapPost("/orders/add-product", (BangazonDbContext db, OrderItemDTO orderItemDTO) =>
+            // add product to order
+            app.MapPost("/orders/add-product", (BangazonDbContext db, AddProductDTO newProduct) =>
             {
-                var order = db.Orders.Include(order => order.Products).SingleOrDefault(order => order.Id == orderItemDTO.OrderId);
-                var product = db.Products.Find(orderItemDTO.ProductId);
-
-                if (order == null || product == null)
+                var order = db.Orders.Include(order => order.Products).FirstOrDefault(order => order.Id == newProduct.OrderId);
+                if (order == null)
                 {
-                    return Results.NotFound();
+                    return Results.NotFound("Order not found.");
                 }
 
-                order.Products.Add(product);
+                var product = db.Products.Find(newProduct.ProductId);
+                if (product == null)
+                {
+                    return Results.NotFound("Product not found.");
+                }
+
+                var existingProduct = order.Products.FirstOrDefault(product => product.Id == newProduct.ProductId);
+                if (existingProduct != null)
+                {
+                    existingProduct.Quantity += newProduct.Quantity;
+                }
+                else
+                {
+                    product.Quantity = newProduct.Quantity;
+                    order.Products.Add(product);
+                }
+
                 db.SaveChanges();
-                return Results.Created($"/orders/{orderItemDTO.OrderId}/products/{orderItemDTO.ProductId}", product);
+                return Results.Created($"/orders/add-product", newProduct);
             });
 
-            // delete item from order
+            // delete product from order
             app.MapDelete("/orders/{orderId}/products/{productId}", (BangazonDbContext db, int orderId, int productId) =>
             {
-                var order = db.Orders.SingleOrDefault(order => order.Id == orderId);
-                var product = db.Products.SingleOrDefault(product => product.Id == productId);
-
-                if (order == null || product == null)
+                var order = db.Orders.Include(order => order.Products).FirstOrDefault(order => order.Id == orderId);
+                if (order == null)
                 {
-                    return Results.NotFound();
+                    return Results.NotFound("Order not found.");
                 }
 
-                order.Products.Remove(product);
+                var productToRemove = order.Products.FirstOrDefault(product => product.Id == productId);
+                if (productToRemove == null)
+                {
+                    return Results.NotFound("Product not found in cart.");
+                }
+
+                order.Products.Remove(productToRemove);
                 db.SaveChanges();
-                return Results.NoContent();
+                return Results.Ok("Product removed from cart.");
             });
         }
     }
