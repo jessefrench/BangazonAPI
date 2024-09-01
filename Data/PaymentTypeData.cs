@@ -4,12 +4,12 @@ namespace Bangazon.Data
 {
     public class PaymentTypeData
     {
-        public static List<PaymentType> PaymentTypes = new List<PaymentType>
+        public static List<PaymentType> PaymentTypes = new()
         {
-            new PaymentType { Id = 1, Name = "Credit Card" },
-            new PaymentType { Id = 2, Name = "PayPal" },
-            new PaymentType { Id = 3, Name = "Apple Pay" },
-            new PaymentType { Id = 4, Name = "Google Pay" }
+            new() { Id = 1, Name = "Credit Card" },
+            new() { Id = 2, Name = "PayPal" },
+            new() { Id = 3, Name = "Apple Pay" },
+            new() { Id = 4, Name = "Google Pay" }
         };
     }
 }
