@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BangazonAPI.Migrations
 {
     [DbContext(typeof(BangazonDbContext))]
-    partial class BangazonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240902181612_OrderProduct")]
+    partial class OrderProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,78 +98,79 @@ namespace BangazonAPI.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2024, 8, 23, 13, 50, 33, 31, DateTimeKind.Local).AddTicks(6906),
+                            Date = new DateTime(2024, 8, 23, 13, 16, 12, 477, DateTimeKind.Local).AddTicks(8646),
                             Open = false,
                             PaymentTypeId = 1,
-                            Uid = "4baf60286c8441269bca0f5112db"
+                            Uid = "-O5LVFGSbT2qdsa3MLZy"
                         },
                         new
                         {
                             Id = 2,
-                            Date = new DateTime(2024, 8, 25, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7910),
+                            Date = new DateTime(2024, 8, 25, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(38),
                             Open = false,
                             PaymentTypeId = 2,
-                            Uid = "4baf60286c8441269bca0f5112db"
+                            Uid = "-O5LVFGSbT2qdsa3MLZy"
                         },
                         new
                         {
                             Id = 3,
-                            Date = new DateTime(2024, 8, 27, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7925),
+                            Date = new DateTime(2024, 8, 27, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(50),
                             Open = true,
-                            Uid = "1f6efc6bb5ec49d1aae275dc218c"
+                            Uid = "-O5LVFGUdCWOqG1hfAEP"
                         },
                         new
                         {
                             Id = 4,
-                            Date = new DateTime(2024, 8, 29, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7964),
+                            Date = new DateTime(2024, 8, 29, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(53),
                             Open = true,
-                            Uid = "1f6efc6bb5ec49d1aae275dc218c"
+                            Uid = "-O5LVFGUdCWOqG1hfAEP"
                         },
                         new
                         {
                             Id = 5,
-                            Date = new DateTime(2024, 8, 31, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7966),
+                            Date = new DateTime(2024, 8, 31, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(54),
                             Open = false,
                             PaymentTypeId = 3,
-                            Uid = "bc4772dadb754b9a84ddcd50ffc6"
+                            Uid = "-O5LVFGVQSk2h87zW9HB"
                         },
                         new
                         {
                             Id = 6,
-                            Date = new DateTime(2024, 9, 1, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7970),
+                            Date = new DateTime(2024, 9, 1, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(58),
                             Open = true,
-                            Uid = "bc4772dadb754b9a84ddcd50ffc6"
+                            PaymentTypeId = 1,
+                            Uid = "-O5LVFGVQSk2h87zW9HB"
                         },
                         new
                         {
                             Id = 7,
-                            Date = new DateTime(2024, 8, 30, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7971),
+                            Date = new DateTime(2024, 8, 30, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(59),
                             Open = true,
-                            Uid = "6ff438a599e3432cb6fc413c5d58"
+                            Uid = "-O5LVFGWgAQ6OqOvTFsQ"
                         },
                         new
                         {
                             Id = 8,
-                            Date = new DateTime(2024, 9, 2, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7973),
+                            Date = new DateTime(2024, 9, 2, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(61),
                             Open = false,
                             PaymentTypeId = 2,
-                            Uid = "6ff438a599e3432cb6fc413c5d58"
+                            Uid = "-O5LVFGWgAQ6OqOvTFsQ"
                         },
                         new
                         {
                             Id = 9,
-                            Date = new DateTime(2024, 8, 28, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7975),
+                            Date = new DateTime(2024, 8, 28, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(62),
                             Open = false,
                             PaymentTypeId = 3,
-                            Uid = "3492dcf84a0546c1b47dbb196210 "
+                            Uid = "-O5LVFGXDNDM1MPXFXvz"
                         },
                         new
                         {
                             Id = 10,
-                            Date = new DateTime(2024, 8, 26, 13, 50, 33, 32, DateTimeKind.Local).AddTicks(7977),
+                            Date = new DateTime(2024, 8, 26, 13, 16, 12, 479, DateTimeKind.Local).AddTicks(65),
                             Open = false,
                             PaymentTypeId = 1,
-                            Uid = "3492dcf84a0546c1b47dbb196210 "
+                            Uid = "-O5LVFGXDNDM1MPXFXvz"
                         });
                 });
 
@@ -529,7 +532,7 @@ namespace BangazonAPI.Migrations
                             LastName = "Doe",
                             Seller = true,
                             State = "TX",
-                            Uid = "4baf60286c8441269bca0f5112db",
+                            Uid = "-O5LVFGSbT2qdsa3MLZy",
                             Zip = "12345"
                         },
                         new
@@ -542,7 +545,7 @@ namespace BangazonAPI.Migrations
                             LastName = "Smith",
                             Seller = false,
                             State = "CA",
-                            Uid = "1f6efc6bb5ec49d1aae275dc218c",
+                            Uid = "-O5LVFGUdCWOqG1hfAEP",
                             Zip = "67890"
                         },
                         new
@@ -555,7 +558,7 @@ namespace BangazonAPI.Migrations
                             LastName = "Johnson",
                             Seller = true,
                             State = "NY",
-                            Uid = "bc4772dadb754b9a84ddcd50ffc6",
+                            Uid = "-O5LVFGVQSk2h87zW9HB",
                             Zip = "11223"
                         },
                         new
@@ -568,7 +571,7 @@ namespace BangazonAPI.Migrations
                             LastName = "Brown",
                             Seller = false,
                             State = "FL",
-                            Uid = "6ff438a599e3432cb6fc413c5d58",
+                            Uid = "-O5LVFGWgAQ6OqOvTFsQ",
                             Zip = "33445"
                         },
                         new
@@ -581,7 +584,7 @@ namespace BangazonAPI.Migrations
                             LastName = "Davis",
                             Seller = true,
                             State = "OH",
-                            Uid = "3492dcf84a0546c1b47dbb196210",
+                            Uid = "-O5LVFGXDNDM1MPXFXvz",
                             Zip = "55667"
                         });
                 });

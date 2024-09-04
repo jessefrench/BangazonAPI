@@ -27,7 +27,7 @@ public class BangazonDbContext : DbContext
         
         modelBuilder.Entity<Order>()
             .HasMany(order => order.Products)
-            .WithMany(products => products.Orders)
-            .UsingEntity(x => x.ToTable("OrderItem"));
+            .WithMany(product => product.Orders)
+            .UsingEntity(orderProduct => orderProduct.ToTable("OrderProduct"));
     }
 }
