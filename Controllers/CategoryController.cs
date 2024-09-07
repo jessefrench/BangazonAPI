@@ -1,6 +1,6 @@
-namespace Bangazon.API
+namespace Bangazon.Controllers
 {
-	public class CategoryRequests
+    public class CategoryController
 	{
 		public static void Map(WebApplication app)
 		{

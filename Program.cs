@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
-using Bangazon.API;
+using Bangazon.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +35,8 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseCors();
+
 // configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
@@ -42,14 +44,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
 app.UseHttpsRedirection();
 
-// endpoints
-CategoryRequests.Map(app);
-OrderRequests.Map(app);
-PaymentTypeRequests.Map(app);
-ProductRequests.Map(app);
-UserRequests.Map(app);
+// controllers
+CategoryController.Map(app);
+OrderController.Map(app);
+PaymentTypeController.Map(app);
+ProductController.Map(app);
+UserController.Map(app);
 
 app.Run();

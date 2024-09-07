@@ -1,35 +1,22 @@
-using Bangazon.Data;
 using Bangazon.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bangazon.API
+namespace Bangazon.Controllers
 {
-    public class ProductRequests
+    public class ProductController
     {
         public static void Map(WebApplication app)
         {
-            // get products
+            // get all products
             app.MapGet("/products", (BangazonDbContext db) =>
             {
                 return db.Products.ToList();
             });
 
-            // get products by id
+            // get single product
             app.MapGet("/products/{id}", (BangazonDbContext db, int id) =>
             {
                 return db.Products.SingleOrDefault(product => product.Id == id);
-            });
-
-            // get products by seller
-            app.MapGet("/products/sellers/{id}", (BangazonDbContext db, int id) =>
-            {
-                return db.Products.Where(product => product.SellerId == id).ToList();
-            });
-
-            // get products by category
-            app.MapGet("/products/categories/{id}", (BangazonDbContext db, int id) =>
-            {
-                return db.Products.Where(product => product.CategoryId == id).ToList();
             });
 
             // search products
