@@ -1,8 +1,8 @@
 using Bangazon.Models;
 
-namespace Bangazon.API
+namespace Bangazon.Controllers
 {
-    public class UserRequests
+    public class UserController
     {
         public static void Map(WebApplication app)
         {
@@ -28,27 +28,27 @@ namespace Bangazon.API
                 return Results.Created($"/users/{user.Id}", user);
             });
 
-            // get users
-            app.MapGet("/users", (BangazonDbContext db) =>
-            {
-                return db.Users.ToList();
-            });
-
-            // get user by id
-            app.MapGet("/users/{id}", (BangazonDbContext db, int id) =>
-            {
-                return db.Users.SingleOrDefault(user => user.Id == id);
-            });
-
             // get user details
             app.MapGet("/users/details/{uid}", (BangazonDbContext db, string uid) =>
             {
-
                 User user = db.Users.SingleOrDefault(u => u.Uid == uid);
                 if (user == null)
                 {
                     return Results.NotFound();
                 }
+                return Results.Ok(user);
+            });
+
+            // switch user to seller
+            app.MapPatch("users/sell/{uid}", async (BangazonDbContext db, string uid) =>
+            {
+                User user = db.Users.SingleOrDefault(user => user.Uid == uid);
+                if (user == null)
+                {
+                    return Results.NotFound();
+                }
+                user.Seller = true;
+                await db.SaveChangesAsync();
                 return Results.Ok(user);
             });
 
@@ -71,19 +71,6 @@ namespace Bangazon.API
                 userToUpdate.Seller = user.Seller;
                 db.SaveChanges();
                 return Results.Ok(userToUpdate);
-            });
-
-            // switch user to seller
-            app.MapPatch("users/sell/{uid}", async (BangazonDbContext db, string uid) =>
-            {
-                User user = db.Users.SingleOrDefault(user => user.Uid == uid);
-                if (user == null)
-                {
-                    return Results.NotFound();
-                }
-                user.Seller = true;
-                await db.SaveChangesAsync();
-                return Results.Ok(user);
             });
         }
     }
